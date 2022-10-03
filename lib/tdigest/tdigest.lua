@@ -1,4 +1,4 @@
-local RBTree = require('lib/bintrees/rbtree')
+local RBTree = require('lib/bintrees').RBTree
 local TDigest = {}
 
 local function compareCentroidMeans(a, b)

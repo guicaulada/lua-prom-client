@@ -1,4 +1,4 @@
-local TDigest = require('lib/tdigest/tdigest')
+local TDigest = require('lib/tdigest').TDigest
 local TimeWindowQuantiles = {}
 
 function TimeWindowQuantiles:new(maxAgeSeconds, ageBuckets)
