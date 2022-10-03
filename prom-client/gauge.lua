@@ -65,7 +65,7 @@ function Gauge:dec(labels, value)
 end
 
 function Gauge:setToCurrentTime(labels)
-  local now = os.clock()
+  local now = os.time()
   if labels == nil then
     self:set(now)
   else
@@ -74,9 +74,9 @@ function Gauge:setToCurrentTime(labels)
 end
 
 function Gauge:startTimer(startLabels)
-  local start = os.clock()
+  local start = os.time()
   return function(endLabels)
-    local delta = os.clock() - start
+    local delta = os.time() - start
     local labels = {}
     for k, v in pairs(startLabels) do
       labels[k] = v

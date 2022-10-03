@@ -13,7 +13,7 @@ function TimeWindowQuantiles:new(maxAgeSeconds, ageBuckets)
     o.ringBuffer[i] = TDigest:new()
   end
   o.currentBuffer = 0
-  o.lastRotateTimestamp = os.clock()
+  o.lastRotateTimestamp = os.time()
   o.durationBetweenRotates = maxAgeSeconds / ageBuckets or math.huge
   return o
 end
@@ -43,7 +43,7 @@ function TimeWindowQuantiles:compress()
 end
 
 function TimeWindowQuantiles:rotate()
-  local timeSinceLastRotate = os.clock() - self.lastRotateTimestamp
+  local timeSinceLastRotate = os.time() - self.lastRotateTimestamp
   while timeSinceLastRotate > self.durationBetweenRotates and self.shouldRotate do
     self.ringBuffer[self.currentBuffer] = TDigest:new()
     self.currentBuffer = self.currentBuffer + 1

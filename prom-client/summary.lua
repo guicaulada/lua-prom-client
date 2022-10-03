@@ -42,9 +42,9 @@ end
 
 local function startTimer(summary, startLabels)
   return function()
-    local start = os.clock()
+    local start = os.time()
     return function(endLabels)
-      local delta = os.clock() - start
+      local delta = os.time() - start
       local labels = {}
       for k, v in pairs(startLabels) do
         labels[k] = v
