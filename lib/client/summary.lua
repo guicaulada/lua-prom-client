@@ -108,16 +108,16 @@ function Summary:new(config)
   })
   setmetatable(o, self)
   self.__index = self
-  for _, label in ipairs(self.labelNames) do
+  for _, label in ipairs(o.labelNames) do
     if label == 'quantile' then
       error('Label name "quantile" is a reserved label keyword')
     end
   end
-  if #self.labelNames == 0 then
-    self.hashMap = {
+  if #o.labelNames == 0 then
+    o.hashMap = {
       [util.hashTable({})] = {
         labels = {},
-        td = TimeWindowQuantiles:new(self.maxAgeSeconds, self.ageBuckets),
+        td = TimeWindowQuantiles:new(o.maxAgeSeconds, o.ageBuckets),
         count = 0,
         sum = 0
       }
@@ -172,7 +172,7 @@ end
 
 function Summary:labels(...)
   local labels = util.getLabels(self.labelNames, { ... })
-  validation.valudateLabel(self.labelNames, labels)
+  validation.validateLabel(self.labelNames, labels)
   return {
     observe = observe(self, labels),
     startTimer = startTimer(self, labels)
@@ -181,7 +181,7 @@ end
 
 function Summary:remove(...)
   local labels = util.getLabels(self.labelNames, { ... })
-  validation.valudateLabel(self.labelNames, labels)
+  validation.validateLabel(self.labelNames, labels)
   util.removeLabels(self.hashMap, labels)
 end
 

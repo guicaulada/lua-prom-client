@@ -91,7 +91,7 @@ end
 local function extractBucketValuesForExport(bucketData, histogram)
   local buckets = {}
   local bucketLabelNames = {}
-  for k, _ in pairs(bucketData.labelNames) do
+  for k, _ in pairs(bucketData.labels) do
     table.insert(bucketLabelNames, k)
   end
   local acc = 0
@@ -126,20 +126,20 @@ function Histogram:new(config)
   })
   setmetatable(o, self)
   self.__index = self
-  for _, label in ipairs(self.labelNames) do
+  for _, label in ipairs(o.labelNames) do
     if label == 'le' then
       error('Label name "le" is a reserved label keyword')
     end
   end
-  self.upperBounds = self.bukcets
-  self.bucketValues = {}
-  for _, upperBound in ipairs(self.upperBounds) do
-    self.bucketValues[upperBound] = 0
+  o.upperBounds = o.bukcets
+  o.bucketValues = {}
+  for _, upperBound in ipairs(o.upperBounds) do
+    o.bucketValues[upperBound] = 0
   end
 
-  if #self.labelNames == 0 then
-    self.hashMap = {
-      [util.hashTable({})] = createBaseValues({}, self.bucketValues)
+  if #o.labelNames == 0 then
+    o.hashMap = {
+      [util.hashTable({})] = createBaseValues({}, o.bucketValues)
     }
   end
   return o
@@ -161,10 +161,9 @@ function Histogram:get()
     table.insert(data, value)
   end
   local values = {}
-  for _, s in ipairs(data) do
-    for _, v in ipairs(extractBucketValuesForExport(s, self)) do
-      addSumAndCountForExport(values, v, self)
-    end
+  for _, d in ipairs(data) do
+    local v = extractBucketValuesForExport(d, self)
+    addSumAndCountForExport(values, v, self)
   end
   return {
     name = self.name,
@@ -190,7 +189,7 @@ end
 
 function Histogram:labels(...)
   local labels = util.getLabels(self.labelNames, { ... })
-  validation.valudateLabel(self.labelNames, labels)
+  validation.validateLabel(self.labelNames, labels)
   return {
     observe = observe(self, labels),
     startTimer = startTimer(self, labels)
@@ -199,7 +198,7 @@ end
 
 function Histogram:remove(...)
   local labels = util.getLabels(self.labelNames, { ... })
-  validation.valudateLabel(self.labelNames, labels)
+  validation.validateLabel(self.labelNames, labels)
   util.removeLabels(self.hashMap, labels)
 end
 

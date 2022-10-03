@@ -116,7 +116,7 @@ end
 
 function Gauge:labels(...)
   local labels = util.getLabels(self.labelNames, { ... })
-  validation.valudateLabel(self.labelNames, labels)
+  validation.validateLabel(self.labelNames, labels)
   return {
     inc = function(value) self:inc(labels, value) end,
     dec = function(value) self:dec(labels, value) end,
@@ -128,7 +128,7 @@ end
 
 function Gauge:remove(...)
   local labels = util.getLabels(self.labelNames, { ... })
-  validation.valudateLabel(self.labelNames, labels)
+  validation.validateLabel(self.labelNames, labels)
   util.removeLabels(self.hashMap, labels)
 end
 
