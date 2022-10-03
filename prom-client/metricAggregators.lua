@@ -1,4 +1,4 @@
-local util = require('lib/client/util')
+local util = require('prom-client.util')
 
 function AggregatorFactory(aggregatorFn)
   return function(metrics)

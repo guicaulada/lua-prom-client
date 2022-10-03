@@ -1,6 +1,6 @@
-local globalRegistry = require('lib/client/registry').globalRegistry
-local util = require('lib/client/util')
-local validation = require('lib/client/validation')
+local globalRegistry = require('prom-client.globalRegistry')
+local util = require('prom-client.util')
+local validation = require('prom-client.validation')
 local Metric = {}
 
 function Metric:new(config, defaults)

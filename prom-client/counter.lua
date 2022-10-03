@@ -1,6 +1,6 @@
-local util = require('lib/client/util')
-local validation = require('lib/client/validation')
-local Metric = require('lib/client/metric')
+local util = require('prom-client.util')
+local validation = require('prom-client.validation')
+local Metric = require('prom-client.metric')
 local metricType = 'counter'
 local Counter = {}
 
@@ -72,7 +72,7 @@ end
 function Counter:labels(...)
   local labels = util.getLabels(self.labelNames, { ... }) or {}
   return {
-    inc = function(value) self:inc(labels, value) end
+    inc = function(_, value) self:inc(labels, value) end
   }
 end
 

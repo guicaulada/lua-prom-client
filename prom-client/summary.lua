@@ -1,7 +1,7 @@
-local util = require('lib/client/util')
-local validation = require('lib/client/validation')
-local Metric = require('lib/client/metric')
-local TimeWindowQuantiles = require('lib/client/timeWindowQuantiles')
+local util = require('prom-client.util')
+local validation = require('prom-client.validation')
+local Metric = require('prom-client.metric')
+local TimeWindowQuantiles = require('prom-client.timeWindowQuantiles')
 local metricType = 'summary'
 local Summary = {}
 
@@ -174,8 +174,8 @@ function Summary:labels(...)
   local labels = util.getLabels(self.labelNames, { ... })
   validation.validateLabel(self.labelNames, labels)
   return {
-    observe = observe(self, labels),
-    startTimer = startTimer(self, labels)
+    observe = function(_, value) observe(self, labels)(value) end,
+    startTimer = function(_) startTimer(self, labels)() end
   }
 end
 

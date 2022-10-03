@@ -1,14 +1,13 @@
-local Counter = require('..').Counter
-local register = require('..').register
+local client = require('prom-client')
 
-local c = Counter:new({
+local c = client.Counter:new({
   name = 'test_counter',
   help = 'Example of a counter',
   labelNames = { 'code' }
 })
 
 c:inc({ code = 200 });
-print(register:metrics());
+print(client.register:metrics());
 
 --[[
 # HELP test_counter Example of a counter
@@ -17,7 +16,7 @@ test_counter{code="200"} 1
 ]]
 
 c:inc({ code = 200 });
-print(register:metrics());
+print(client.register:metrics());
 
 --[[
 # HELP test_counter Example of a counter
@@ -26,7 +25,7 @@ test_counter{code="200"} 2
 ]]
 
 c:inc();
-print(register:metrics());
+print(client.register:metrics());
 
 --[[
 # HELP test_counter Example of a counter
@@ -36,7 +35,7 @@ test_counter 1
 ]]
 
 c:reset();
-print(register:metrics());
+print(client.register:metrics());
 
 --[[
 # HELP test_counter Example of a counter
@@ -44,7 +43,7 @@ print(register:metrics());
 ]]
 
 c:inc(15);
-print(register:metrics());
+print(client.register:metrics());
 
 --[[
 # HELP test_counter Example of a counter
@@ -53,7 +52,7 @@ test_counter 15
 ]]
 
 c:inc({ code = 200 }, 12);
-print(register:metrics());
+print(client.register:metrics());
 
 --[[
 # HELP test_counter Example of a counter
@@ -62,8 +61,8 @@ test_counter 15
 test_counter{code="200"} 12
 ]]
 
-c:labels('200').inc(12);
-print(register:metrics());
+c:labels('200'):inc(12);
+print(client.register:metrics());
 
 --[[
 # HELP test_counter Example of a counter

@@ -1,14 +1,13 @@
-local Gauge = require('..').Gauge
-local register = require('..').register
+local client = require('prom-client')
 
-local g = Gauge:new({
+local g = client.Gauge:new({
   name = 'test_gauge',
   help = 'Example of a gauge',
   labelNames = { 'code' },
 });
 
 g:set({ code = 200 }, 5);
-print(register:metrics());
+print(client.register:metrics());
 --[[
 # HELP test_gauge Example of a gauge
 # TYPE test_gauge gauge
@@ -16,7 +15,7 @@ test_gauge{code="200"} 5
 ]]
 
 g:set(15);
-print(register:metrics());
+print(client.register:metrics());
 --[[
 # HELP test_gauge Example of a gauge
 # TYPE test_gauge gauge
@@ -24,8 +23,8 @@ test_gauge{code="200"} 5
 test_gauge 15
 ]]
 
-g:labels('200').inc();
-print(register:metrics());
+g:labels('200'):inc();
+print(client.register:metrics());
 --[[
 # HELP test_gauge Example of a gauge
 # TYPE test_gauge gauge
@@ -34,7 +33,7 @@ test_gauge 15
 ]]
 
 g:inc();
-print(register:metrics());
+print(client.register:metrics());
 --[[
 # HELP test_gauge Example of a gauge
 # TYPE test_gauge gauge
@@ -43,7 +42,7 @@ test_gauge 16
 ]]
 
 g:set(22);
-print(register:metrics());
+print(client.register:metrics());
 --[[
 # HELP test_gauge Example of a gauge
 # TYPE test_gauge gauge

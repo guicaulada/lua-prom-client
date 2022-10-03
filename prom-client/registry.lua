@@ -1,4 +1,4 @@
-local util = require('lib/client/util')
+local util = require('prom-client.util')
 local Registry = {}
 
 local function escapeString(str)
@@ -145,7 +145,4 @@ function Registry.merge(registers)
   return mergedRegistry
 end
 
-return {
-  Registry = Registry,
-  globalRegistry = Registry:new()
-}
+return Registry

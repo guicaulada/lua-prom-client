@@ -1,22 +1,21 @@
-local Histogram = require('..').Histogram
-local register = require('..').register
+local client = require('prom-client')
 
 -- Histogram
 -- Multiple Labels
 -- Multiple Values per Label
 
-local h = Histogram:new({
+local h = client.Histogram:new({
   name = 'test_histogram',
   help = 'Example of a histogram',
   labelNames = { 'code', 'color' },
 });
 
-h:labels('200', 'blue').observe(0.4);
-h:labels('300', 'red').observe(0.6);
-h:labels('300', 'blue').observe(0.4);
-h:labels('200', 'red').observe(0.6);
+h:labels('200', 'blue'):observe(0.4);
+h:labels('300', 'red'):observe(0.6);
+h:labels('300', 'blue'):observe(0.4);
+h:labels('200', 'red'):observe(0.6);
 
-print(register:metrics());
+print(client.register:metrics());
 
 --[[
 Output from metrics():

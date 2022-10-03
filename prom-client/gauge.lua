@@ -1,6 +1,6 @@
-local util = require('lib/client/util')
-local validation = require('lib/client/validation')
-local Metric = require('lib/client/metric')
+local util = require('prom-client.util')
+local validation = require('prom-client.validation')
+local Metric = require('prom-client.metric')
 local metricType = 'gauge'
 local Gauge = {}
 
@@ -118,11 +118,11 @@ function Gauge:labels(...)
   local labels = util.getLabels(self.labelNames, { ... })
   validation.validateLabel(self.labelNames, labels)
   return {
-    inc = function(value) self:inc(labels, value) end,
-    dec = function(value) self:dec(labels, value) end,
-    set = function(value) self:set(labels, value) end,
-    setToCurrentTime = function() self:setToCurrentTime(labels) end,
-    startTimer = function() self:startTimer(labels) end
+    inc = function(_, value) self:inc(labels, value) end,
+    dec = function(_, value) self:dec(labels, value) end,
+    set = function(_, value) self:set(labels, value) end,
+    setToCurrentTime = function(_) self:setToCurrentTime(labels) end,
+    startTimer = function(_) self:startTimer(labels) end
   }
 end
 
