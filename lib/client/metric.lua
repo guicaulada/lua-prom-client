@@ -1,45 +1,47 @@
-local client = require('./client')
-local util = require('./util')
-local validation = require('./validation')
+local globalRegistry = require('lib/client/registry').globalRegistry
+local util = require('lib/client/util')
+local validation = require('lib/client/validation')
 local Metric = {}
 
 function Metric:new(config, defaults)
   if not util.isTable(config) then
     error('Metric config must be a table')
   end
+  defaults = defaults or {}
   local o = {}
   setmetatable(o, self)
   self.__index = self
-  self.labelNames = {}
-  self.registers = { client.globalRegistry }
-  self.aggregator = 'sum'
+  o.hashMap = {}
+  o.labelNames = {}
+  o.registers = { globalRegistry }
+  o.aggregator = 'sum'
   for k, v in pairs(defaults) do
-    self[k] = v
+    o[k] = v
   end
   for k, v in pairs(config) do
-    self[k] = v
+    o[k] = v
   end
-  if not self.registers then
-    self.registers = { client.globalRegistry }
+  if not o.registers then
+    o.registers = { globalRegistry }
   end
-  if not self.help then
+  if not o.help then
     error('Missing mandatory help parameter')
   end
-  if not self.name then
+  if not o.name then
     error('Missing mandatory name parameter')
   end
-  if not validation.validateMetricName(self.name) then
-    error(string.format('Invalid metric name: %s', self.name))
+  if not validation.validateMetricName(o.name) then
+    error(string.format('Invalid metric name: %s', o.name))
   end
-  if not validation.validateLabelName(self.labelNames) then
+  if not validation.validateLabelName(o.labelNames) then
     error('Invalid label name')
   end
-  if self.collect and type(self.collect) ~= 'function' then
+  if o.collect and type(o.collect) ~= 'function' then
     error('Optional "collect" parameter must be a function')
   end
-  self:reset()
-  for _, register in ipairs(self.registers) do
-    register:registerMetric(self)
+  o:reset()
+  for _, register in ipairs(o.registers) do
+    register:registerMetric(o)
   end
   return o
 end

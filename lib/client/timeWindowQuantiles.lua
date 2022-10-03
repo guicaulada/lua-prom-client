@@ -1,20 +1,20 @@
-local TDigest = require('../lib/tdigest/tdigest')
+local TDigest = require('lib/tdigest/tdigest')
 local TimeWindowQuantiles = {}
 
 function TimeWindowQuantiles:new(maxAgeSeconds, ageBuckets)
   local o = {}
   setmetatable(o, self)
   self.__index = self
-  self.maxAgeSeconds = maxAgeSeconds or 0
-  self.ageBuckets = ageBuckets or 0
-  self.shouldRotate = maxAgeSeconds and ageBuckets
-  self.ringBuffer = {}
+  o.maxAgeSeconds = maxAgeSeconds or 0
+  o.ageBuckets = ageBuckets or 0
+  o.shouldRotate = maxAgeSeconds and ageBuckets
+  o.ringBuffer = {}
   for i = 1, ageBuckets do
-    self.ringBuffer[i] = TDigest:new()
+    o.ringBuffer[i] = TDigest:new()
   end
-  self.currentBuffer = 0
-  self.lastRotateTimestamp = os.clock()
-  self.durationBetweenRotates = maxAgeSeconds / ageBuckets or math.huge
+  o.currentBuffer = 0
+  o.lastRotateTimestamp = os.clock()
+  o.durationBetweenRotates = maxAgeSeconds / ageBuckets or math.huge
   return o
 end
 

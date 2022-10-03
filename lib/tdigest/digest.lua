@@ -1,4 +1,4 @@
-local TDigest = require('./tdigest')
+local TDigest = require('lib/tdigest/tdigest')
 local Digest = {}
 
 function Digest:new(config)
@@ -8,11 +8,11 @@ function Digest:new(config)
   end
   setmetatable(o, self)
   self.__index = self
-  self.config = config
-  self.mode = config.mode or 'auto'
-  self.digestRatio = config.ratio or 0.9
-  self.digestThresh = config.thresh or 1000
-  self.nUnique = 0
+  o.config = config
+  o.mode = config.mode or 'auto'
+  o.digestRatio = config.ratio or 0.9
+  o.digestThresh = config.thresh or 1000
+  o.nUnique = 0
   return o
 end
 

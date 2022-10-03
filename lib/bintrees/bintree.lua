@@ -1,14 +1,14 @@
-local TreeBase = require('./treebase')
-local Node = require('./node')
+local TreeBase = require('lib/bintrees/treebase')
+local Node = require('lib/bintrees/node')
 local BinTree = {}
 
 function BinTree:new(comparator)
   local o = TreeBase:new()
   setmetatable(o, self)
   self.__index = self
-  self.root = nil
-  self.comparator = comparator
-  self.size = 0
+  o.root = nil
+  o.comparator = comparator
+  o.size = 0
   return o
 end
 

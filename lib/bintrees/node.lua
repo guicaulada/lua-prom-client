@@ -4,9 +4,9 @@ function Node:new(data)
   local o = {}
   setmetatable(o, self)
   self.__index = self
-  self.data = data
-  self.left = nil
-  self.right = nil
+  o.data = data
+  o.left = nil
+  o.right = nil
   return o
 end
 

@@ -74,7 +74,7 @@ function util.hashTable(labels)
   local hash = ''
   local i = 1
   local size = #keys
-  while i <= size do
+  while i < size do
     hash = string.format('%s%s:%s,', hash, keys[i], labels[keys[i]])
     i = i + 1
   end
@@ -90,7 +90,7 @@ function util.Grouper:new()
   local o = {}
   setmetatable(o, self)
   self.__index = self
-  self.groups = {}
+  o.groups = {}
   return o
 end
 

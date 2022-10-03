@@ -1,4 +1,4 @@
-local Iterator = require('./iterator')
+local Iterator = require('lib/bintrees/iterator')
 local TreeBase = {}
 
 function TreeBase:new()

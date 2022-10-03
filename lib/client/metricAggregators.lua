@@ -1,4 +1,4 @@
-local util = require('./util')
+local util = require('lib/client/util')
 
 function AggregatorFactory(aggregatorFn)
   return function(metrics)

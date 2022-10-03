@@ -1,7 +1,7 @@
-local util = require('./util')
-local validation = require('./validation')
-local Metric = require('./metric')
-local type = 'histogram'
+local util = require('lib/client/util')
+local validation = require('lib/client/validation')
+local Metric = require('lib/client/metric')
+local metricType = 'histogram'
 local Histogram = {}
 
 local function startTimer(histogram, startLabels)
@@ -169,7 +169,7 @@ function Histogram:get()
   return {
     name = self.name,
     help = self.help,
-    type = type,
+    type = metricType,
     values = values,
     aggregator = self.aggregator
   }
@@ -188,8 +188,8 @@ function Histogram:startTimer(labels)
   return startTimer(self, labels)()
 end
 
-function Histogram:labels(args)
-  local labels = util.getLabels(self.labelNames, args)
+function Histogram:labels(...)
+  local labels = util.getLabels(self.labelNames, { ... })
   validation.valudateLabel(self.labelNames, labels)
   return {
     observe = observe(self, labels),
@@ -197,8 +197,8 @@ function Histogram:labels(args)
   }
 end
 
-function Histogram:remove(args)
-  local labels = util.getLabels(self.labelNames, args)
+function Histogram:remove(...)
+  local labels = util.getLabels(self.labelNames, { ... })
   validation.valudateLabel(self.labelNames, labels)
   util.removeLabels(self.hashMap, labels)
 end

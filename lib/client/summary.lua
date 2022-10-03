@@ -1,8 +1,8 @@
-local util = require('./util')
-local validation = require('./validation')
-local Metric = require('./metric')
-local TimeWindowQuantiles = require('./timeWindowQuantiles')
-local type = 'summary'
+local util = require('lib/client/util')
+local validation = require('lib/client/validation')
+local Metric = require('lib/client/metric')
+local TimeWindowQuantiles = require('lib/client/timeWindowQuantiles')
+local metricType = 'summary'
 local Summary = {}
 
 local DEFAULT_COMPRESS_COUNT = 1000
@@ -105,7 +105,6 @@ function Summary:new(config)
   local o = Metric:new(config, {
     percentiles = { 0.01, 0.05, 0.5, 0.9, 0.95, 0.99, 0.999 },
     compressCount = DEFAULT_COMPRESS_COUNT,
-    hashMap = {}
   })
   setmetatable(o, self)
   self.__index = self
@@ -153,7 +152,7 @@ function Summary:get()
   return {
     name = self.name,
     help = self.help,
-    type = type,
+    type = metricType,
     values = values,
     aggregator = self.aggregator
   }
@@ -171,8 +170,8 @@ function Summary:startTimer(labels)
   return startTimer(self, labels)()
 end
 
-function Summary:labels(args)
-  local labels = util.getLabels(self.labelNames, args)
+function Summary:labels(...)
+  local labels = util.getLabels(self.labelNames, { ... })
   validation.valudateLabel(self.labelNames, labels)
   return {
     observe = observe(self, labels),
@@ -180,8 +179,8 @@ function Summary:labels(args)
   }
 end
 
-function Summary:remove(args)
-  local labels = util.getLabels(self.labelNames, args)
+function Summary:remove(...)
+  local labels = util.getLabels(self.labelNames, { ... })
   validation.valudateLabel(self.labelNames, labels)
   util.removeLabels(self.hashMap, labels)
 end

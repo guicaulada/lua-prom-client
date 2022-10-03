@@ -4,9 +4,9 @@ function Iterator:new(tree)
   local o = {}
   setmetatable(o, self)
   self.__index = self
-  self.tree = tree
-  self.ancestors = {}
-  self.cursor = nil
+  o.tree = tree
+  o.ancestors = {}
+  o.cursor = nil
   return o
 end
 

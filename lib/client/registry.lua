@@ -1,4 +1,4 @@
-local util = require('./util')
+local util = require('lib/client/util')
 local Registry = {}
 
 local function escapeString(str)
@@ -16,10 +16,10 @@ function Registry:new()
   local o = {}
   setmetatable(o, self)
   self.__index = self
-  self._metrics = {}
-  self.collectors = {}
-  self.defaultLabels = {}
-  self.contentType = 'text/plain; version=0.0.4; charset=utf-8'
+  o._metrics = {}
+  o.collectors = {}
+  o.defaultLabels = {}
+  o.contentType = 'text/plain; version=0.0.4; charset=utf-8'
   return o
 end
 
@@ -35,7 +35,7 @@ function Registry:getMetricAsPrometheusString(metric)
   local item = metric:get()
   local name = escapeString(item.name)
   local help = string.format('# HELP %s %s', name, escapeString(item.help))
-  local type = string.format('# TYPE %s %s', name, escapeString(item.type))
+  local metricType = string.format('# TYPE %s %s', name, escapeString(item.type))
   local defaultLabelNames = {}
   for k, _ in pairs(self.defaultLabels) do
     table.insert(defaultLabelNames, k)
@@ -58,7 +58,7 @@ function Registry:getMetricAsPrometheusString(metric)
     local size = #keys
     if size > 0 then
       local labels = ''
-      local i = 0
+      local i = 1
       while i < size do
         labels = string.format('%s%s="%s",', labels, keys[i], escapeLabelValue(val.labels[keys[i]]))
         i = i + 1
@@ -68,7 +68,7 @@ function Registry:getMetricAsPrometheusString(metric)
     end
     values = string.format('%s%s %s\n', values, metricName, util.getValueAsString(val.value))
   end
-  return string.format('%s\n%s\n%s', help, type, values)
+  return string.format('%s\n%s\n%s', help, metricType, values)
 end
 
 function Registry:metrics()
@@ -145,4 +145,7 @@ function Registry.merge(registers)
   return mergedRegistry
 end
 
-return Registry
+return {
+  Registry = Registry,
+  globalRegistry = Registry:new()
+}

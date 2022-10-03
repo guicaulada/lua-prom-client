@@ -1,4 +1,4 @@
-local RBTree = require('../bintrees/rbtree')
+local RBTree = require('lib/bintrees/rbtree')
 local TDigest = {}
 
 local function compareCentroidMeans(a, b)
@@ -28,13 +28,13 @@ function TDigest:new(delta, K, CX)
   local o = {}
   setmetatable(o, self)
   self.__index = self
-  self.discrete = delta == false
-  self.delta = delta or 0.01
-  self.K = K or 25
-  self.CX = CX or 1.1
-  self.centroids = RBTree:new(compareCentroidMeans)
-  self.nreset = 0
-  self:reset()
+  o.discrete = delta == false
+  o.delta = delta or 0.01
+  o.K = K or 25
+  o.CX = CX or 1.1
+  o.centroids = RBTree:new(compareCentroidMeans)
+  o.nreset = 0
+  o:reset()
   return o
 end
 

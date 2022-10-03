@@ -14,6 +14,7 @@ function validation.validateLabelName(names)
 			return false
 		end
 	end
+	return true
 end
 
 function validation.validateLabel(savedLabels, labels)
