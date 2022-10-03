@@ -154,7 +154,7 @@ end
 
 function Histogram:get()
   if self.collect then
-    self.collect()
+    self:collect()
   end
   local data = {}
   for _, value in pairs(self.hashMap) do
