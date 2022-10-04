@@ -141,23 +141,6 @@ client.Gauge:new({
 });
 ```
 
-```lua
--- Async version:
-local client = require('prom-client');
-client.Gauge:new({
-  name = 'metric_name',
-  help = 'metric_help',
-  collect = function()
-    -- Invoked when the registry collects its metrics' values.
-    local currentValue = somethingToGetValue();
-    self:set(currentValue);
-  end,
-});
-```
-
-Note that you should not use arrow functions for `collect` because arrow
-functions will not have the correct value for `this`.
-
 ##### Utility Functions
 
 ```lua
