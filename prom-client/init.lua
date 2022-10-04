@@ -2,6 +2,7 @@ local validation = require('prom-client.validation')
 local globalRegistry = require('prom-client.globalRegistry')
 local bucketGenerators = require('prom-client.bucketGenerators')
 local metricAggregators = require('prom-client.metricAggregators')
+local defaultMetrics = require('prom-client.defaultMetrics')
 
 return {
   register = globalRegistry,
@@ -16,7 +17,8 @@ return {
 
   linearBuckets = bucketGenerators.linearBuckets,
   exponentialBuckets = bucketGenerators.exponentialBuckets,
-  -- collectDefaultMetrics = require('prom-client.defaultMetrics'), -- needs implementation
+  collectDefaultMetrics = defaultMetrics.collectDefaultMetrics,
+
 
   aggregators = metricAggregators.aggregators,
 }

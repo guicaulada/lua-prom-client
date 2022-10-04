@@ -22,6 +22,8 @@ Lua-specific metrics are included, such as Lua version.
 See [prom-client/metrics](lib/metrics) for a list of all
 metrics.
 
+Pull requests to help implement more recommended metrics are welcome.
+
 `collectDefaultMetrics` optionally accepts a config object with following entries:
 
 - `prefix` an optional prefix for metric names. Default: no prefix.
