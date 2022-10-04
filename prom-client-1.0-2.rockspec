@@ -1,11 +1,11 @@
 package = "prom-client"
-version = "1.0-1"
+version = "1.0-2"
 source = {
    url = "git+https://github.com/guicaulada/lua-prom-client.git"
 }
 description = {
    detailed = [[
-A prometheus client for Lua that supports histogram, summaries, gauges and
+A Prometheus client for Lua that supports histogram, summaries, gauges and
 counters.]],
    homepage = "https://github.com/guicaulada/lua-prom-client",
    license = "MIT/X11"

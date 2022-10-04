@@ -1,6 +1,6 @@
 # Prometheus client for Lua
 
-A prometheus client for Lua that supports histogram, summaries, gauges and
+A Prometheus client for Lua that supports histogram, summaries, gauges and
 counters.
 
 This is an adaptation of the JavaScript version created by [Simon Nyberg](https://github.com/siimon/prom-client).
