@@ -25,15 +25,15 @@ local function collectDefaultMetrics(config)
     error('config must be null, undefined, or an object');
   end
 
-  local conf = { eventLoopMonitoringPrecision = 10 };
+  local cfg = { eventLoopMonitoringPrecision = 10 };
   if config ~= nil then
     for k, v in pairs(config) do
-      conf[k] = v
+      cfg[k] = v
     end
   end
 
   for _, metric in pairs(metrics) do
-    metric(config.register, conf);
+    metric(cfg.register, cfg);
   end
 end
 
