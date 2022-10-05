@@ -26,8 +26,10 @@ local function collectDefaultMetrics(config)
   end
 
   local conf = { eventLoopMonitoringPrecision = 10 };
-  for k, v in pairs(config) do
-    conf[k] = v
+  if config ~= nil then
+    for k, v in pairs(config) do
+      conf[k] = v
+    end
   end
 
   for _, metric in pairs(metrics) do

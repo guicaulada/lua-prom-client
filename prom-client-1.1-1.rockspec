@@ -1,5 +1,5 @@
 package = "prom-client"
-version = "1.0-2"
+version = "1.1-1"
 source = {
    url = "git+https://github.com/guicaulada/lua-prom-client.git"
 }
