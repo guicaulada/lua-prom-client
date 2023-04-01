@@ -78,11 +78,15 @@ function Gauge:startTimer(startLabels)
   return function(endLabels)
     local delta = os.time() - start
     local labels = {}
-    for k, v in pairs(startLabels) do
-      labels[k] = v
+    if startLabels then
+      for k, v in pairs(startLabels) do
+        labels[k] = v
+      end
     end
-    for k, v in pairs(endLabels) do
-      labels[k] = v
+    if endLabels then
+      for k, v in pairs(endLabels) do
+        labels[k] = v
+      end
     end
     self:set(labels, delta)
     return delta

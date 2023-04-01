@@ -49,3 +49,21 @@ print(client.register:metrics());
 test_gauge{code="200"} 6
 test_gauge 22
 ]]
+
+local stop = g:startTimer();
+time = os.time()
+wait = 5
+newtime = time + wait
+while (time < newtime)
+do
+  time = os.time()
+end
+stop({code = 500});
+print(client.register:metrics());
+--[[
+# HELP test_gauge Example of a gauge
+# TYPE test_gauge gauge
+test_gauge{code="200"} 6
+test_gauge{code="500"} 5
+test_gauge 22
+]]
